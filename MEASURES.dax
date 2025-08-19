@@ -1,0 +1,39 @@
+-- Deals QTY
+Deals QTY =
+COUNTROWS( crm_deal )
+
+-- Deals QTY Success
+Deals QTY Success =
+CALCULATE( COUNTROWS( crm_deal ), crm_deal[STAGE_SEMANTIC_ID] = "S" )
+
+-- Deals QTY Success %
+Deals QTY Success % =
+DIVIDE( [Deals QTY Success], [Deals QTY] )
+
+-- Sales in GEL
+Sales in GEL =
+CALCULATE( SUM( crm_deal[OPPORTUNITY] ), crm_deal[STAGE_SEMANTIC_ID] = "S" )
+
+-- Sales QTY
+Sales QTY =
+SUM( crm_deal[OPPORTUNITY] )
+
+-- Sales QTY Contracted
+Sales QTY Contracted =
+CALCULATE( COUNTROWS( crm_deal ), crm_deal[STAGE_ID] = "CONTRACT" )
+
+-- Sales QTY Live
+Sales QTY Live =
+CALCULATE( COUNTROWS( crm_deal ), crm_deal[STAGE_ID] = "LIVE" )
+
+-- Sales QTY Stage Share
+Sales QTY Stage Share =
+DIVIDE( [Deals QTY], CALCULATE( [Deals QTY], ALL( crm_deal[STAGE_ID] ) ) )
+
+-- Stage Duration
+Stage Duration =
+DATEDIFF( MIN( crm_deal[DATE_CREATE] ), MAX( crm_deal[DATE_CREATE] ), DAY )
+
+-- Deals QTY Source Share
+Deals QTY Source Share =
+DIVIDE( [Deals QTY], CALCULATE( [Deals QTY], ALL( crm_deal[SOURCE_ID] ) ) )
